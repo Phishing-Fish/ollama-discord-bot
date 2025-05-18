@@ -4,5 +4,5 @@ services:
   ollama-discord-bot:
     build: .
     env_file:
-      - .env
+      - "stack.env"
     restart: unless-stopped
