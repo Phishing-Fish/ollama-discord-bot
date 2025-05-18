@@ -5,9 +5,11 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-OLLAMA_API_URL = os.getenv("OLLAMA_API_URL", "http://localhost:11434/api/chat")
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "localhost")
+OLLAMA_PORT = os.getenv("OLLAMA_PORT", "11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "fishbot:latest")
+
+OLLAMA_API_URL = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/chat"
 
 intents = discord.Intents.default()
 intents.message_content = True
