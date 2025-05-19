@@ -48,7 +48,8 @@ async def on_message(message):
 
     if client.user in message.mentions or isinstance(message.channel, discord.DMChannel):
         logging.info(f"Received message: {message.content}")
-        response = await query_ollama(message.content)
+        async with message.channel.typing():
+            response = await query_ollama(message.content)
         logging.info(f"Ollama response: {response}")
         if response:
             await message.channel.send(response)
