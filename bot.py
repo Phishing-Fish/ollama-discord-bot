@@ -8,6 +8,7 @@ logging.basicConfig(level=logging.INFO)
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "localhost")
 OLLAMA_PORT = os.getenv("OLLAMA_PORT", "11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "fishbot:latest")
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
 OLLAMA_API_URL = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/chat"
 
