@@ -4,7 +4,7 @@ This is a lightweight Discord chatbot powered by [Ollama](https://ollama.com), d
 
 ## Features
 
-* Ὂc Responds to @mentions and direct messages
+* 💬 Responds to @mentions and direct messages
 * 🧠 Maintains context of the last 3 user messages per conversation
 * ⌛ Displays typing indicator while generating replies
 * 📚 Uses any model available in your local Ollama instance
