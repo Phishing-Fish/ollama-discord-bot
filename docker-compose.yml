@@ -3,6 +3,9 @@ version: '3.8'
 services:
   ollama-discord-bot:
     build: .
-    env_file:
-      - "stack.env"
+     environment:
+      - DISCORD_TOKEN
+      - OLLAMA_HOST
+      - OLLAMA_MODEL
+      - OLLAMA_PORT
     restart: unless-stopped
