@@ -70,7 +70,7 @@ async def on_message(message):
         async with message.channel.typing():
             response = await query_ollama(
                 user_id=message.author.id,
-                username=message.author.display_name,
+                username=message.author.name,
                 new_message=cleaned_content
             )
 
