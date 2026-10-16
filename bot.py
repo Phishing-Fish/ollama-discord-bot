@@ -67,6 +67,16 @@ async def on_message(message):
         # Remove bot mention from the message content
         cleaned_content = message.content.replace(f"<@{client.user.id}>", "").strip()
 
+        # Handle reset command: remove the last 3 messages from this user's history
+        if cleaned_content.lower() == "reset":
+            history = conversation_history.get(message.author.id)
+            removed = 0
+            while history and removed < 3:
+                history.pop()
+                removed += 1
+            await message.channel.send(f"Reset {removed} message(s) from your conversation history.")
+            return
+
         async with message.channel.typing():
             response = await query_ollama(
                 user_id=message.author.id,
