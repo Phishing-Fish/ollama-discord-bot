@@ -23,15 +23,19 @@ conversation_history = {}
 async def query_ollama(user_id, username, new_message):
     history = conversation_history.get(user_id, deque(maxlen=3))
 
+    user_content = f"{username} says: {new_message}"
+
     # Create chat format for Ollama API
     chat_messages = list(history)
-    chat_messages.append({"role": "user", "content": f"{username} says: {new_message}"})
+    chat_messages.append({"role": "user", "content": user_content})
 
     payload = {
         "model": OLLAMA_MODEL,
         "messages": chat_messages,
         "stream": False
     }
+
+    logging.info(f"Message received and sent: {user_content}")
 
     async with aiohttp.ClientSession() as session:
         async with session.post(OLLAMA_API_URL, json=payload) as resp:
@@ -40,7 +44,7 @@ async def query_ollama(user_id, username, new_message):
                 response = data.get("message", {}).get("content", "No response")
 
                 # Add the user's message and model's reply to history
-                history.append({"role": "user", "content": f"{username} says: {new_message}"})
+                history.append({"role": "user", "content": user_content})
                 history.append({"role": "assistant", "content": response})
                 conversation_history[user_id] = history
 
@@ -62,8 +66,6 @@ async def on_message(message):
     is_mention = client.user in message.mentions
 
     if is_dm or is_mention:
-        logging.info(f"Received message: {message.content}")
-
         # Remove bot mention from the message content
         cleaned_content = message.content.replace(f"<@{client.user.id}>", "").strip()
 
@@ -74,6 +76,7 @@ async def on_message(message):
             while history and removed < 3:
                 history.pop()
                 removed += 1
+            logging.info(f"Reset {removed} message(s) for {message.author.name}")
             await message.channel.send(f"Reset {removed} message(s) from your conversation history.")
             return
 
